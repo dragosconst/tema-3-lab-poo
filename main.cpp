@@ -65,6 +65,7 @@ int main()
     vector<Farmacie_online> onlines;
     vector<Farmacie_offline> offlines;
     GestionareFarmacii<Farmacie*> farm_infos(11);
+    GestionareFarmacii<Farmacie_online> farm_on_infos(11);
     try{
         cout << "Cate farmacii online exista? ";
         int nr_firm;
@@ -92,12 +93,16 @@ int main()
         }
 
         for(int i = 0; i < onlines.size(); ++i)
+        {
             farm_infos.push(&onlines[i]);
+            farm_on_infos.push(onlines[i]);
+        }
         for(int i = 0; i < offlines.size(); ++i)
             farm_infos.push(&offlines[i]);
         farm_infos[-1]->showData();
         cout << "\n\nToate farmaciile au un numar de " << farm_infos.allAngajati() << " angajati, profituri totale de " << farm_infos.totalProfit() << "; farmaciile online au fost accesate de "
-        << farm_infos.allViews() << " ori si au fost folosite discounturi in valoare totala de " << farm_infos.totalDiscounts() <<"\n";
+        << farm_infos.allViews() << " ori si au fost folosite discounturi in valoare totala de " << farm_infos.totalDiscounts() <<".\n";
+        cout << "Folosind template-ul specializat, stim ca avem un total de " << farm_on_infos.getNumarTotal() << " vizualizari ale farmaciilor online.";
     }
     catch(exception& e)
     {
@@ -201,7 +206,6 @@ T GestionareFarmacii<T>::operator[](int ind)
     if(ind < 0) // pt indecsi negativi, fac ca in python, adica numar din coada
     {
         ind = this->len + ind;
-        cout << ind << ' ' << this->len << endl;
     }
     if(ind < 0 || ind > len) throw Out_Of_Bounds();
     node<T>* iter = this->FarmaList_first;
