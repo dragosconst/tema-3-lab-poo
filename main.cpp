@@ -18,7 +18,7 @@ class GestionareFarmacii
 {
     node<T>* FarmaList_first;
     const int lant;
-    int len; // adica indexul farmaciei?? cred??
+    int len;
 public:
     GestionareFarmacii(int lant) : lant(lant)
     {
