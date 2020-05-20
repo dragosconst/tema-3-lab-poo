@@ -20,7 +20,7 @@ public:
     void setDenumire(std::string s) {this->denumire = s;}
     int getNrAngajati() const { return this->nr_angajati;}
     void setNrAngajati(int nr) {this->nr_angajati = nr;}
-    std::vector<double>& getProfits() { return this->profits;}
+    std::vector<double> getProfits() { return this->profits;}
     void setProfits(std::vector<double> pr) {this->profits = pr;}
 
     void showData() const;

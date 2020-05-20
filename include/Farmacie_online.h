@@ -18,7 +18,7 @@ public:
 
     std::string getWeb() const { return this->web; }
     int getNrViz() const { return this->nr_viz; }
-    std::vector<double>& getDiscount() { return this->discount; }
+    std::vector<double> getDiscount() { return this->discount; }
 
     void showData() const;
 

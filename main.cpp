@@ -4,6 +4,7 @@
 #include <No_Assignment_Possible.h>
 #include <Out_Of_Bounds.h>
 #include <typeinfo>
+#include <tuple>
 using namespace std;
 
 template<class T>
@@ -64,6 +65,7 @@ int main()
 {
     vector<Farmacie_online> onlines;
     vector<Farmacie_offline> offlines;
+    vector<tuple<string, int, vector<double>>> structura;
     GestionareFarmacii<Farmacie*> farm_infos(11);
     GestionareFarmacii<Farmacie_online> farm_on_infos(11);
     try{
@@ -76,6 +78,7 @@ int main()
         {
             Farmacie_online temp;
             cin >> temp;
+            structura.push_back(make_tuple(temp.getWeb(), temp.getNrViz(), temp.getDiscount()));
             onlines.push_back(temp);
             --nr_firm;
         }
@@ -94,12 +97,12 @@ int main()
 
         for(int i = 0; i < onlines.size(); ++i)
         {
-            farm_infos.push(&onlines[i]);
+            farm_infos += (&onlines[i]);
             farm_on_infos.push(onlines[i]);
         }
         for(int i = 0; i < offlines.size(); ++i)
-            farm_infos.push(&offlines[i]);
-        farm_infos[-1]->showData();
+            farm_infos += (&offlines[i]);
+        //farm_infos[-1]->showData();
         cout << "\n\nToate farmaciile au un numar de " << farm_infos.allAngajati() << " angajati, profituri totale de " << farm_infos.totalProfit() << "; farmaciile online au fost accesate de "
         << farm_infos.allViews() << " ori si au fost folosite discounturi in valoare totala de " << farm_infos.totalDiscounts() <<".\n";
         cout << "Folosind template-ul specializat, stim ca avem un total de " << farm_on_infos.getNumarTotal() << " vizualizari ale farmaciilor online.";
@@ -244,7 +247,8 @@ double GestionareFarmacii<T>::totalProfit() const
     {
         if(typeid(*(iter->info)) == typeid(Farmacie_offline))
         {
-            for(auto it : (dynamic_cast<Farmacie_offline*>(iter->info))->getProfits())
+            vector<double> profits = (dynamic_cast<Farmacie_offline*>(iter->info))->getProfits();
+            for(auto it : profits)
             {
                 totes += it;
             }
@@ -280,7 +284,8 @@ double GestionareFarmacii<T>::totalDiscounts() const
     {
         if(typeid(*(iter->info)) == typeid(Farmacie_online))
         {
-            for(auto it : (dynamic_cast<Farmacie_online*>(iter->info))->getDiscount())
+            vector<double> discount = (dynamic_cast<Farmacie_online*>(iter->info))->getDiscount();
+            for(auto it : discount)
             {
                 totes += it;
             }
